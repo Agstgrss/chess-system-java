@@ -24,6 +24,7 @@ public class ChessMatch {
     private ChessPiece enPassantVulnerable;
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
+    private ChessPiece promoted;
 
 
 
@@ -55,6 +56,10 @@ public class ChessMatch {
         return enPassantVulnerable;
     }
 
+    public ChessPiece getPromoted() {
+        return promoted;
+    }
+
     public ChessPiece[][] getPieces() {
         ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
         for (int i = 0; i < board.getRows(); i++) {;
@@ -76,14 +81,12 @@ public class ChessMatch {
         Position target = targetPosition.toPosition();
         validateSourcePosition(source);
         validateTargetPosition(source, target);
-        Piece capturePiece = makeMove(source, target);
+        Piece capturedPiece = makeMove(source, target);
 
         if (testCheck(currentPlayer)) {
-            undoMove(source, target, capturePiece);
+            undoMove(source, target, capturedPiece);
             throw new ChessException("You can't put yourself in check");
         }
-
-        ChessPiece movedPiece = (ChessPiece)board.piece(target);
 
         ChessPiece movedPiece = (ChessPiece)board.piece(target);
 
